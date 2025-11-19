@@ -133,17 +133,19 @@ export default class Sprite {
     }
 
     /**
-     * Moves the sprite x amount of steps (10px) in the direction the sprite is facing
+     * Moves the sprite x amount of steps in the direction the sprite is facing
      * 
      * @param {number} steps
      * the number of steps to take
      */
     public move_x_steps(steps: number) {
-        const x = Math.cos(-this.direction)* (steps*10)
-        const y = Math.sin(-this.direction)* (steps*10)
-        this.position = {'x': x, 'y': y}
-        this.sprite.style.left = `${x}`
-        this.sprite.style.top = `${y}`
+        const directionRadians = this.direction * (Math.PI / 180);
+        const x = Math.cos(directionRadians) * steps;
+        const y = Math.sin(directionRadians) * steps;
+        this.position.x += x;
+        this.position.y += y;
+        this.sprite.style.left = `${this.position.x}px`;
+        this.sprite.style.top = `${this.position.y}px`;
     }
 
     /**
