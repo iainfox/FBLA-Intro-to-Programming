@@ -127,4 +127,28 @@ export default class Sprite {
         this.sprite.style.left = `${x}`
         this.sprite.style.top = `${y}`
     }
+
+    /**
+     * Changes the x position by the provided amount
+     * 
+     * @param {number} x
+     * the amount to change the x position by
+     */
+    public change_x_by(x: number) {
+        const new_x = this.position.x += x
+        this.position.x = new_x
+        this.sprite.style.left = `${new_x}`
+    }
+
+    /**
+     * Changes the x position by the provided amount
+     * 
+     * @param {number} y
+     * the amount to change the y position by
+     */
+    public change_y_by(y: number) {
+        const new_y = this.position.y += y
+        this.position.y = new_y
+        this.sprite.style.left = `${new_y}`
+    }
 }
