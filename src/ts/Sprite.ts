@@ -173,25 +173,23 @@ export default class Sprite {
     public move_x_steps(steps: number) {
         const directionRadians = (this.direction - 90) * (Math.PI / 180);
         const x = Math.cos(directionRadians) * steps;
-        const y = Math.sin(directionRadians) * steps;
+        const y = -Math.sin(directionRadians) * steps;
         this.position.x += x;
         this.position.y += y;
-        this.sprite.style.left = `${this.position.x}px`;
-        this.sprite.style.top = `${this.position.y}px`;
+        this.updateCssPosition();
     }
 
     /**
      * Sets the x and y position on the screen to the provided values
      * 
      * @param {number} x
-     * the x position on the screen to move the sprite to
+     * the x position on the screen to move the sprite to (0,0 is center)
      * @param {number} y
-     * the y position on the screen to move the sprite to
+     * the y position on the screen to move the sprite to (0,0 is center, positive Y is down)
      */
     public go_to_xy(x: number, y: number) {
         this.position = {'x': x, 'y': y}
-        this.sprite.style.left = `${x}`
-        this.sprite.style.top = `${y}`
+        this.updateCssPosition()
     }
 
     /**
@@ -201,55 +199,53 @@ export default class Sprite {
      * the amount to change the x position by
      */
     public change_x_by(x: number) {
-        const new_x = this.position.x += x
-        this.position.x = new_x
-        this.sprite.style.left = `${new_x}`
+        this.position.x += x
+        this.updateCssPosition()
     }
 
     /**
      * Changes the y position by the provided amount
      * 
      * @param {number} y
-     * the amount to change the y position by
+     * the amount to change the y position by (positive values move down)
      */
     public change_y_by(y: number) {
-        const new_y = this.position.y += y
-        this.position.y = new_y
-        this.sprite.style.left = `${new_y}`
+        this.position.y += y
+        this.updateCssPosition()
     }
 
     /**
      * Sets the x position to the provided x coordinate
      * 
      * @param {number} x
-     * the x coordinate to set the x to
+     * the x coordinate to set the x to (0 is center)
      */
     public set_x_to(x: number) {
         this.position.x = x
-        this.sprite.style.left = `${x}`
+        this.updateCssPosition()
     }
 
     /**
      * Sets the y position to the provided y coordinate
      * 
      * @param {number} y
-     * the y coordinate to set the y to
+     * the y coordinate to set the y to (0 is center, positive Y is down)
      */
     public set_y_to(y: number) {
         this.position.y = y
-        this.sprite.style.left = `${y}`
+        this.updateCssPosition()
     }
 
     /**
      * point_in_direction_xy
      * 
      * @param {number} x2
-     * the x position to point the sprite at
+     * the x position to point the sprite at (in user coordinates, 0 is center)
      * @param {number} y2
-     * the y position to point the sprite at
+     * the y position to point the sprite at (in user coordinates, 0 is center, positive Y is down)
      */
     public point_in_direction_xy(x2: number, y2: number) {
-        const new_direction_radians = Math.atan2(y2-this.position.y, x2-this.position.x)
+        const new_direction_radians = Math.atan2(-(y2-this.position.y), x2-this.position.x)
         const new_direction_degrees = new_direction_radians * (180/Math.PI)
         this.direction = new_direction_degrees
         this.update_rotation()
