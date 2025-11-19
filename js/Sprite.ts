@@ -6,6 +6,8 @@ export default class Sprite {
 
     constructor(img: HTMLImageElement) {
         this.sprite = img
+        this.sprite.style.transform = "translate(-50%, -50%)"
+
         this.direction = 90
 
         this.sprite.addEventListener('mouseenter', () => {
