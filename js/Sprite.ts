@@ -38,28 +38,63 @@ export default class Sprite {
         })
     }
 
+    /**
+     * Sets the callback function to be called when the sprite is clicked.
+     * 
+     * @param {Function} v
+     * The function to call on click
+     */
     public set set_on_click(v : Function) {
         this.on_click = v
     }
     
+    /**
+     * Checks if the mouse pointer is currently over the sprite.
+     * 
+     * @returns {boolean} True if the mouse pointer is touching the sprite, false otherwise.
+     */
     public get isTouchingMousePointer() : boolean {
         return this.touching_mouse
     }
 
+    /**
+     * Updates the rotation of the sprite element according to its direction.
+     * Should be called whenever the direction property changes.
+     * 
+     * @private
+     */
     private update_rotation() {
         this.sprite.style.rotate = `${this.direction}`
     }
 
+    /**
+     * Rotates the sprite clockwise by the given number of degrees.
+     * 
+     * @param {number} degrees
+     * The number of degrees to rotate clockwise.
+     */
     public set turn_x_degrees_clockwise(degrees: number) {
         this.direction += degrees
         this.update_rotation()
     }
 
+    /**
+     * Rotates the sprite counterclockwise by the given number of degrees.
+     * 
+     * @param {number} degrees
+     * The number of degrees to rotate counterclockwise.
+     */
     public set turn_x_degrees_counter_clockwise(degrees: number) {
         this.direction -= degrees
         this.update_rotation()
     }
 
+    /**
+     * Points the sprite in the specified direction.
+     * 
+     * @param {number} degrees
+     * The direction in degrees to point the sprite.
+     */
     public set point_in_direction(degrees: number) {
         this.direction = degrees
         this.update_rotation()
