@@ -139,7 +139,7 @@ export default class Sprite {
      * the number of steps to take
      */
     public move_x_steps(steps: number) {
-        const directionRadians = this.direction * (Math.PI / 180);
+        const directionRadians = (this.direction - 90) * (Math.PI / 180);
         const x = Math.cos(directionRadians) * steps;
         const y = Math.sin(directionRadians) * steps;
         this.position.x += x;
