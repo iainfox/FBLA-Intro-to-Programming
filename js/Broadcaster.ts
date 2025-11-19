@@ -4,7 +4,10 @@ export default class Broadcaster {
     sprites: Sprite[]
     
     /**
-     * Broadcast a message to all sprites
+     * Broadcasts the specified message to all sprites.
+     * 
+     * @param {string} broadcast_name
+     * The name of the broadcast message to send.
      */
     public broadcast(broadcast_name: string) {
         this.sprites.forEach(sprite => {
