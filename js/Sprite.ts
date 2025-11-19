@@ -3,7 +3,7 @@ export default class Sprite {
     touching_mouse: boolean
     on_click: Function
     direction: number
-    position: [number, number]
+    position: {'x': number, 'y': number}
 
     constructor(img: HTMLImageElement) {
         this.sprite = img
@@ -18,7 +18,7 @@ export default class Sprite {
         const x = rect.left + width / 2
         const y = rect.top + height / 2
 
-        this.position = [x, y]
+        this.position = {'x': x, 'y': y}
 
         this.sprite.style.left = `${x}px`
         this.sprite.style.top = `${y}px`
@@ -109,7 +109,7 @@ export default class Sprite {
     public move_x_steps(steps: number) {
         const x = Math.cos(-this.direction)* (steps*10)
         const y = Math.sin(-this.direction)* (steps*10)
-        this.position = [x, y]
+        this.position = {'x': x, 'y': y}
         this.sprite.style.left = `${x}`
         this.sprite.style.top = `${y}`
     }
@@ -123,7 +123,7 @@ export default class Sprite {
      * the y position on the screen to move the sprite to
      */
     public go_to_xy(x: number, y: number) {
-        this.position = [x, y]
+        this.position = {'x': x, 'y': y}
         this.sprite.style.left = `${x}`
         this.sprite.style.top = `${y}`
     }
