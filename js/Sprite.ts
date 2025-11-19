@@ -1,10 +1,10 @@
 export default class Sprite {
     sprite: HTMLImageElement
-    touching_mouse: boolean
-    on_click: Function
+    touching_mouse: boolean | null = null
+    on_click: Function | null = null
     direction: number
     position: {'x': number, 'y': number}
-    broadcasts: { [broadcastName: string]: Function[] }
+    broadcasts: { [broadcastName: string]: Function[] } | null = null
 
     constructor(img: HTMLImageElement) {
         this.sprite = img
@@ -46,7 +46,9 @@ export default class Sprite {
      * The name of the broadcast message to respond to.
      */
     public recieve_broadcast(broadcast_name: string) {
-        if (Object.keys(this.broadcasts).includes(broadcast_name)) {
+        if (!this.broadcasts) return
+        
+        if (Object.keys(this.broadcasts).indexOf(broadcast_name) !== -1) {
             this.broadcasts[broadcast_name].forEach(funct => {
                 funct()
             });
@@ -60,6 +62,8 @@ export default class Sprite {
      * @param {Function} broadcast_callback - The callback function to invoke when the broadcast is received.
      */
     public add_broadcast(broadcast_name: string, broadcast_callback: Function) {
+        if (!this.broadcasts) return
+
         if (!this.broadcasts[broadcast_name]) {
             this.broadcasts[broadcast_name] = [];
         }
@@ -82,7 +86,7 @@ export default class Sprite {
      * @returns {boolean} True if the mouse pointer is touching the sprite, false otherwise.
      */
     public get isTouchingMousePointer() : boolean {
-        return this.touching_mouse
+        return this.touching_mouse ?? false;
     }
 
     /**

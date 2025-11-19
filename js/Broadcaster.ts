@@ -1,7 +1,7 @@
 import Sprite from "./Sprite"
 
 export default class Broadcaster {
-    sprites: Sprite[]
+    sprites: Sprite[] | null = null
     
     /**
      * Broadcasts the specified message to all sprites.
@@ -10,6 +10,7 @@ export default class Broadcaster {
      * The name of the broadcast message to send.
      */
     public broadcast(broadcast_name: string) {
+        if (!this.sprites) return
         this.sprites.forEach(sprite => {
             sprite.recieve_broadcast(broadcast_name)
         });
