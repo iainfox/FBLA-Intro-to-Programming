@@ -4,6 +4,7 @@ export default class Sprite {
     on_click: Function
     direction: number
     position: {'x': number, 'y': number}
+    broadcasts: { [broadcastName: string]: Function[] }
 
     constructor(img: HTMLImageElement) {
         this.sprite = img
@@ -36,6 +37,33 @@ export default class Sprite {
                 this.on_click();
             }
         })
+    }
+
+    /**
+     * Calls the callback function associated with a broadcast message if it exists.
+     * 
+     * @param {string} broadcast_name
+     * The name of the broadcast message to respond to.
+     */
+    public recieve_broadcast(broadcast_name: string) {
+        if (Object.keys(this.broadcasts).includes(broadcast_name)) {
+            this.broadcasts[broadcast_name].forEach(funct => {
+                funct()
+            });
+        }
+    }
+
+    /**
+     * Adds a callback function for the specified broadcast.
+     * 
+     * @param {string} broadcast_name - The name of the broadcast message.
+     * @param {Function} broadcast_callback - The callback function to invoke when the broadcast is received.
+     */
+    public add_broadcast(broadcast_name: string, broadcast_callback: Function) {
+        if (!this.broadcasts[broadcast_name]) {
+            this.broadcasts[broadcast_name] = [];
+        }
+        this.broadcasts[broadcast_name].push(broadcast_callback);
     }
 
     /**
