@@ -141,7 +141,7 @@ export default class Sprite {
     }
 
     /**
-     * Changes the x position by the provided amount
+     * Changes the y position by the provided amount
      * 
      * @param {number} y
      * the amount to change the y position by
