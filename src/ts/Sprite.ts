@@ -5,6 +5,7 @@ export default class Sprite {
     direction: number
     position: {'x': number, 'y': number}
     broadcasts: { [broadcastName: string]: Function[] } = {}
+    costumes: { [costumeName: string]: string} = {}
 
     constructor(img: HTMLImageElement) {
         this.sprite = img
@@ -249,5 +250,17 @@ export default class Sprite {
         const new_direction_degrees = new_direction_radians * (180/Math.PI)
         this.direction = new_direction_degrees + 90
         this.update_rotation()
+    }
+
+    /**
+     * Adds a costume to the sprite.
+     * 
+     * @param {string} costume_name
+     * the name of the costume
+     * @param {string} image_url
+     * the URL of the costume image
+     */
+    public add_costume(costume_name: string, image_url: string) {
+        this.costumes[costume_name] = image_url
     }
 }
