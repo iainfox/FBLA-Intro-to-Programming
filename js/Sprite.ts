@@ -151,4 +151,19 @@ export default class Sprite {
         this.position.y = new_y
         this.sprite.style.left = `${new_y}`
     }
+
+    /**
+     * point_in_direction_xy
+     * 
+     * @param {number} x2
+     * the x position to point the sprite at
+     * @param {number} y2
+     * the y position to point the sprite at
+     */
+    public point_in_direction_xy(x2: number, y2: number) {
+        const new_direction_radians = Math.atan2(y2-this.position.y, x2-this.position.x)
+        const new_direction_degrees = new_direction_radians * (180/Math.PI)
+        this.direction = new_direction_degrees
+        this.update_rotation()
+    }
 }
