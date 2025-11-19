@@ -8,6 +8,10 @@
 </head>
 <body>
     <img id="temp" src="../temp.jpg">
-    <script type="module" src="../dist/main.js"></script>
+    <script type="module">
+      window.addEventListener('DOMContentLoaded', () => {
+        import('../dist/main.js');
+      });
+    </script>
 </body>
 </html>
