@@ -16,13 +16,18 @@ export default class Sprite {
         this.sprite.style.position = "absolute"
         this.sprite.style.transform = "translate(-50%, -50%)"
 
-        const x = rect.left + width / 2
-        const y = rect.top + height / 2
+        const cssX = rect.left + width / 2
+        const cssY = rect.top + height / 2
 
-        this.position = {'x': x, 'y': y}
+        const centerX = window.innerWidth / 2
+        const centerY = window.innerHeight / 2
+        const userX = cssX - centerX
+        const userY = centerY - cssY
 
-        this.sprite.style.left = `${x}px`
-        this.sprite.style.top = `${y}px`
+        this.position = {'x': userX, 'y': userY}
+
+        this.sprite.style.left = `${cssX}px`
+        this.sprite.style.top = `${cssY}px`
 
         this.direction = 90
 
