@@ -63,4 +63,9 @@ export default class Sprite {
         this.sprite.style.left = `${x}`
         this.sprite.style.top = `${y}`
     }
+
+    public go_to_xy(x: number, y: number) {
+        this.sprite.style.left = `${x}`
+        this.sprite.style.top = `${y}`
+    }
 }
