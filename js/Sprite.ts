@@ -60,5 +60,7 @@ export default class Sprite {
     public move_x_steps(steps: number) {
         const x = Math.cos(-this.direction)* (steps*10)
         const y = Math.sin(-this.direction)* (steps*10)
+        this.sprite.style.left = `${x}`
+        this.sprite.style.top = `${y}`
     }
 }
