@@ -50,9 +50,9 @@ export default class Sprite {
      * @param {number} userX - The x coordinate in user (center-origin) space.
      * @param {number} userY - The y coordinate in user (center-origin) space.
      * @returns {{cssX: number, cssY: number}} The equivalent CSS coordinates (top-left origin).
-     * @private
+     * 
      */
-    private userToCss(userX: number, userY: number): {cssX: number, cssY: number} {
+    public userToCss(userX: number, userY: number): {cssX: number, cssY: number} {
         const centerX = window.innerWidth / 2
         const centerY = window.innerHeight / 2
         const cssX = centerX + userX
