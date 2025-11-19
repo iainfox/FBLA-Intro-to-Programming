@@ -64,7 +64,7 @@ export default class Sprite {
      * @private
      */
     private update_rotation() {
-        this.sprite.style.rotate = `${this.direction}`
+        this.sprite.style.rotate = `${this.direction - 90}deg`
     }
 
     /**
