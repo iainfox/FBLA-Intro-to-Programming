@@ -14,7 +14,6 @@ export default class Sprite {
         const width = this.sprite.offsetWidth
         const height = this.sprite.offsetHeight
         this.sprite.style.position = "absolute"
-        this.sprite.style.transform = "translate(-50%, -50%)"
 
         const cssX = rect.left + width / 2
         const cssY = rect.top + height / 2
@@ -30,6 +29,7 @@ export default class Sprite {
         this.sprite.style.top = `${cssY}px`
 
         this.direction = 90
+        this.update_rotation()
 
         this.sprite.addEventListener('mouseenter', () => {
             this.touching_mouse = true
@@ -128,7 +128,7 @@ export default class Sprite {
      * @private
      */
     private update_rotation() {
-        this.sprite.style.rotate = `${this.direction - 90}deg`
+        this.sprite.style.transform = `translate(-50%, -50%) rotate(${this.direction - 90}deg)`
     }
 
     /**
