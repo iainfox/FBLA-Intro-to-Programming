@@ -6,6 +6,7 @@ export default class Sprite {
     position: {'x': number, 'y': number}
     broadcasts: { [broadcastName: string]: Function[] } = {}
     costumes: { [costumeName: string]: string} = {}
+    scale: number = 100
 
     constructor(img: HTMLImageElement, costume_name: string) {
         this.sprite = img
@@ -31,7 +32,7 @@ export default class Sprite {
         this.sprite.style.top = `${cssY}px`
 
         this.direction = 90
-        this.update_rotation()
+        this.update_look()
 
         this.sprite.addEventListener('mouseenter', () => {
             this.touching_mouse = true
@@ -129,8 +130,8 @@ export default class Sprite {
      * 
      * @private
      */
-    private update_rotation() {
-        this.sprite.style.transform = `translate(-50%, -50%) rotate(${this.direction - 90}deg)`
+    private update_look() {
+        this.sprite.style.transform = `translate(-50%, -50%) rotate(${this.direction - 90}deg) scale(${this.scale/100})`
     }
 
     /**
@@ -141,7 +142,7 @@ export default class Sprite {
      */
     public set turn_x_degrees_clockwise(degrees: number) {
         this.direction += degrees
-        this.update_rotation()
+        this.update_look()
     }
 
     /**
@@ -152,7 +153,7 @@ export default class Sprite {
      */
     public set turn_x_degrees_counter_clockwise(degrees: number) {
         this.direction -= degrees
-        this.update_rotation()
+        this.update_look()
     }
 
     /**
@@ -163,7 +164,7 @@ export default class Sprite {
      */
     public set point_in_direction(degrees: number) {
         this.direction = degrees
-        this.update_rotation()
+        this.update_look()
     }
 
     /**
@@ -250,7 +251,7 @@ export default class Sprite {
         const new_direction_radians = Math.atan2(-(y2-this.position.y), x2-this.position.x)
         const new_direction_degrees = new_direction_radians * (180/Math.PI)
         this.direction = new_direction_degrees + 90
-        this.update_rotation()
+        this.update_look()
     }
 
     /**
@@ -275,5 +276,28 @@ export default class Sprite {
         if (this.costumes[costume_name]) {
             this.sprite.setAttribute('src', this.costumes[costume_name])
         }
+    }
+
+    /**
+     * Changes the size of the sprite by the given x amount.
+     * 
+     * @param {number} x
+     * The amount to change the sprite's size by.
+     */
+    public change_size_by_x(x: number) {
+        this.scale += x
+        this.scale = Math.min(Math.max(this.scale, 0), 500);
+        this.update_look()
+    }
+
+    /**
+     * Set the size of the sprite to the given x amount.
+     * 
+     * @param {number} x
+     * The number to change the sprite's size to.
+     */
+    public set_size_to_x(x: number) {
+        this.scale = Math.min(Math.max(x, 0), 500);
+        this.update_look()
     }
 }
