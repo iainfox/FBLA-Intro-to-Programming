@@ -237,7 +237,7 @@ export default class Sprite {
     }
 
     /**
-     * point_in_direction_xy
+     * Points the sprite at a specific coordinate set
      * 
      * @param {number} x2
      * the x position to point the sprite at (in user coordinates, 0 is center)
