@@ -48,9 +48,9 @@ export default class Sprite {
     public recieve_broadcast(broadcast_name: string) {
         if (!this.broadcasts) return
         
-        if (Object.keys(this.broadcasts).indexOf(broadcast_name) !== -1) {
-            this.broadcasts[broadcast_name].forEach(funct => {
-                funct()
+        if (this.broadcasts?.[broadcast_name]) {
+            this.broadcasts[broadcast_name]?.forEach(funct => {
+                funct();
             });
         }
     }
