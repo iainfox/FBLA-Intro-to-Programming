@@ -7,6 +7,9 @@ export default class Sprite {
     broadcasts: { [broadcastName: string]: Function[] } = {}
     costumes: { [costumeName: string]: string} = {}
     scale: number = 100
+    color: number = 0
+    ghost: number = 0
+    brightness: number = 100
 
     constructor(img: HTMLImageElement, costume_name: string) {
         this.sprite = img
@@ -132,6 +135,7 @@ export default class Sprite {
      */
     private update_look() {
         this.sprite.style.transform = `translate(-50%, -50%) rotate(${this.direction - 90}deg) scale(${this.scale/100})`
+        this.sprite.style.filter = `brightness(${(this.brightness+100)/200}) opacity(${100-this.ghost})`
     }
 
     /**
@@ -298,6 +302,61 @@ export default class Sprite {
      */
     public set_size_to_x(x: number) {
         this.scale = Math.min(Math.max(x, 0), 500);
+        this.update_look()
+    }
+
+    /**
+     * Changes the specified effect by a given amount.
+     * 
+     * @param {string} effect_name - The name of the effect ("color", "ghost", or "brightness").
+     * @param {number} x - The amount to change the effect by.
+     */
+    public change_a_effect_by_x(effect_name: string, x: number) {
+        switch (effect_name) {
+            case "color":
+                this.color += x
+                this.color = this.color%360;
+                break;
+            
+            case "ghost":
+                this.ghost -= x
+                this.ghost = Math.min(Math.max(this.ghost, 0), 100);
+                break;
+            
+            case "brightness":
+                this.brightness += x;
+                this.brightness = Math.min(Math.max(this.brightness, -100), 100);
+                break;
+            default:
+                break;
+        }
+        this.update_look()
+    }
+
+    /**
+     * Changes the specified effect by a given amount.
+     * 
+     * @param {string} effect_name - The name of the effect ("color", "ghost", or "brightness").
+     * @param {number} x - The amount to change the effect by.
+     */
+    public set_a_effect_to_x(effect_name: string, x: number) {
+        switch (effect_name) {
+            case "color":
+                this.color = x
+                this.color = this.color%360;
+                break;
+            
+            case "ghost":
+                this.ghost = Math.min(Math.max(x, 0), 100);
+                break;
+            
+            case "brightness":
+                this.brightness = Math.min(Math.max(x, -100), 100);
+                break;
+        
+            default:
+                break;
+        }
         this.update_look()
     }
 }
