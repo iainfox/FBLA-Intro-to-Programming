@@ -66,10 +66,9 @@ export default class Sprite {
     }
 
     /**
-     * move_x_steps moves the sprite x amount of steps (10px) in the direction the sprite is facing
+     * Moves the sprite x amount of steps (10px) in the direction the sprite is facing
      * 
-     * @params
-     * steps: number
+     * @param {number} steps
      * the number of steps to take
      */
     public move_x_steps(steps: number) {
@@ -80,6 +79,14 @@ export default class Sprite {
         this.sprite.style.top = `${y}`
     }
 
+    /**
+     * Sets the x and y position on the screen to the provided values
+     * 
+     * @param {number} x
+     * the x position on the screen to move the sprite to
+     * @param {number} y
+     * the y position on the screen to move the sprite to
+     */
     public go_to_xy(x: number, y: number) {
         this.position = [x, y]
         this.sprite.style.left = `${x}`
