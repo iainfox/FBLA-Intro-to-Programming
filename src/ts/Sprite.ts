@@ -247,7 +247,7 @@ export default class Sprite {
     public point_in_direction_xy(x2: number, y2: number) {
         const new_direction_radians = Math.atan2(-(y2-this.position.y), x2-this.position.x)
         const new_direction_degrees = new_direction_radians * (180/Math.PI)
-        this.direction = new_direction_degrees
+        this.direction = new_direction_degrees + 90
         this.update_rotation()
     }
 }
