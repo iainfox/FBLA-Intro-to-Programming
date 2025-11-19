@@ -47,4 +47,16 @@ export default class Sprite {
         this.direction = degrees
         this.update_rotation()
     }
+
+    /**
+     * move_x_steps moves the sprite x amount of steps (10px) in the direction the sprite is facing
+     * 
+     * @params
+     * steps: number
+     * the number of steps to take
+     */
+    public move_x_steps(steps: number) {
+        const x = Math.cos(-this.direction)* (steps*10)
+        const y = Math.sin(-this.direction)* (steps*10)
+    }
 }
