@@ -153,6 +153,28 @@ export default class Sprite {
     }
 
     /**
+     * Sets the x position to the provided x coordinate
+     * 
+     * @param {number} x
+     * the x coordinate to set the x to
+     */
+    public set_x_to(x: number) {
+        this.position.x = x
+        this.sprite.style.left = `${x}`
+    }
+
+    /**
+     * Sets the y position to the provided y coordinate
+     * 
+     * @param {number} y
+     * the y coordinate to set the y to
+     */
+    public set_y_to(y: number) {
+        this.position.y = y
+        this.sprite.style.left = `${y}`
+    }
+
+    /**
      * point_in_direction_xy
      * 
      * @param {number} x2
