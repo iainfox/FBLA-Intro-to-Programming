@@ -7,8 +7,9 @@ export default class Sprite {
     broadcasts: { [broadcastName: string]: Function[] } = {}
     costumes: { [costumeName: string]: string} = {}
 
-    constructor(img: HTMLImageElement) {
+    constructor(img: HTMLImageElement, costume_name: string) {
         this.sprite = img
+        this.costumes[costume_name] = img.getAttribute('src') || ''
 
         const rect = this.sprite.getBoundingClientRect()
 
@@ -262,5 +263,17 @@ export default class Sprite {
      */
     public add_costume(costume_name: string, image_url: string) {
         this.costumes[costume_name] = image_url
+    }
+
+    /**
+     * Switches the current sprite's costume to the given costume name if it exists.
+     * 
+     * @param {string} costume_name
+     * The name of the costume to switch to.
+     */
+    public switch_costume(costume_name: string) {
+        if (this.costumes[costume_name]) {
+            this.sprite.setAttribute('src', this.costumes[costume_name])
+        }
     }
 }
