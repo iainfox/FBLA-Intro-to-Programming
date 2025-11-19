@@ -1,10 +1,10 @@
 export default class Sprite {
     sprite: HTMLImageElement
-    touching_mouse: boolean | null = null
+    touching_mouse: boolean = false
     on_click: Function | null = null
     direction: number
     position: {'x': number, 'y': number}
-    broadcasts: { [broadcastName: string]: Function[] } | null = null
+    broadcasts: { [broadcastName: string]: Function[] } = {}
 
     constructor(img: HTMLImageElement) {
         this.sprite = img
