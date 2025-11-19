@@ -2,9 +2,11 @@ export default class Sprite {
     sprite: HTMLImageElement
     touching_mouse: boolean
     on_click: Function
+    direction: number
 
     constructor(img: HTMLImageElement) {
         this.sprite = img
+        this.direction = 90
 
         this.sprite.addEventListener('mouseenter', () => {
             this.touching_mouse = true
@@ -25,5 +27,24 @@ export default class Sprite {
     
     public get isTouchingMousePointer() : boolean {
         return this.touching_mouse
+    }
+
+    private update_rotation() {
+        this.sprite.style.rotate = `${this.direction}`
+    }
+
+    public set turn_x_degrees_clockwise(degrees: number) {
+        this.direction += degrees
+        this.update_rotation()
+    }
+
+    public set turn_x_degrees_counter_clockwise(degrees: number) {
+        this.direction -= degrees
+        this.update_rotation()
+    }
+
+    public set point_in_direction(degrees: number) {
+        this.direction = degrees
+        this.update_rotation()
     }
 }
