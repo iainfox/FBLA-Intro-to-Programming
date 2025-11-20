@@ -10,6 +10,7 @@ export default class Sprite {
     color: number = 0
     ghost: number = 0
     brightness: number = 100
+    hidden: boolean = false
 
     constructor(img: HTMLImageElement, costume_name: string) {
         this.sprite = img
@@ -136,6 +137,7 @@ export default class Sprite {
     private update_look() {
         this.sprite.style.transform = `translate(-50%, -50%) rotate(${this.direction - 90}deg) scale(${this.scale/100})`
         this.sprite.style.filter = `brightness(${(this.brightness+100)/200}) opacity(${100-this.ghost})`
+        this.sprite.style.display = this.hidden ? 'none' : 'initial'
     }
 
     /**
@@ -357,6 +359,22 @@ export default class Sprite {
             default:
                 break;
         }
+        this.update_look()
+    }
+
+    /**
+     * Shows the sprite
+     */
+    public show() {
+        this.hidden = false
+        this.update_look()
+    }
+
+    /**
+     * Hides the sprite
+     */
+    public hide() {
+        this.hidden = true
         this.update_look()
     }
 }
