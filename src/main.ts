@@ -7,6 +7,7 @@ if (!image) {
 
 const sprite = new Sprite(image, "costume1")
 sprite.go_to_xy(0, 0)
+const sprite2 = sprite.create_clone()
 
 let mouseX = 0;
 let mouseY = 0;
@@ -18,6 +19,7 @@ window.onmousemove = (event: MouseEvent) => {
 	mouseY = centerY - event.clientY;
 	
 	sprite.point_in_direction_xy(mouseX, mouseY);
+	sprite2.point_in_direction_xy(-mouseX, mouseY)
 };
 
 window.onmouseup = (event: MouseEvent) => {
