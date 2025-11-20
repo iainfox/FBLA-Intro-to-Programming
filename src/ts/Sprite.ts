@@ -11,10 +11,12 @@ export default class Sprite {
     ghost: number = 0
     brightness: number = 100
     hidden: boolean = false
+    is_clone: boolean
 
-    constructor(img: HTMLImageElement, costume_name: string) {
+    constructor(img: HTMLImageElement, costume_name: string, is_clone: boolean = false) {
         this.sprite = img
         this.costumes[costume_name] = img.getAttribute('src') || ''
+        this.is_clone = is_clone
 
         const rect = this.sprite.getBoundingClientRect()
 
@@ -376,5 +378,36 @@ export default class Sprite {
     public hide() {
         this.hidden = true
         this.update_look()
+    }
+
+    /**
+     * Creates a clone of this sprite.
+     * 
+     * The cloned sprite will appear at the same position,
+     * have the same direction, effects, and costume, but will be flagged as a clone.
+     * The DOM element is also cloned, and the clone is appended to the DOM.
+     * 
+     * @returns {Sprite} 
+     * The cloned Sprite instance.
+     */
+    public create_clone(): Sprite {
+        const spriteCloneElem = this.sprite.cloneNode(true) as HTMLElement
+
+        const clone = Object.create(Object.getPrototypeOf(this))
+        Object.assign(clone, this)
+
+        clone.is_clone = true
+        clone.sprite = spriteCloneElem
+
+        if (this.sprite.parentElement) {
+            this.sprite.parentElement.appendChild(spriteCloneElem)
+        } else {
+            document.body.appendChild(spriteCloneElem)
+        }
+
+        clone.update_look()
+        clone.updateCssPosition?.()
+
+        return clone
     }
 }
