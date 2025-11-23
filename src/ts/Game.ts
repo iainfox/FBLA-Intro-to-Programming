@@ -1,7 +1,7 @@
 import Sprite from 'Sprite'
 
 export default class Game {
-    backdrop: Sprite
+    private backdrop: Sprite
 
     constructor (backdrop: Sprite) {
         this.backdrop = backdrop

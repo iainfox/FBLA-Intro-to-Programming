@@ -1,17 +1,17 @@
 export default class Sprite {
-    sprite: HTMLImageElement
-    touching_mouse: boolean = false
-    on_click: Function | null = null
-    direction: number
-    position: {'x': number, 'y': number}
-    broadcasts: { [broadcastName: string]: Function[] } = {}
-    costumes: { [costumeName: string]: string} = {}
-    scale: number = 100
-    color: number = 0
-    ghost: number = 0
-    brightness: number = 100
-    hidden: boolean = false
-    is_clone: boolean
+    private sprite: HTMLImageElement
+    private touching_mouse: boolean = false
+    private on_click: Function | null = null
+    private direction: number
+    private position: {'x': number, 'y': number}
+    private broadcasts: { [broadcastName: string]: Function[] } = {}
+    private costumes: { [costumeName: string]: string} = {}
+    private scale: number = 100
+    private color: number = 0
+    private ghost: number = 0
+    private brightness: number = 100
+    private hidden: boolean = false
+    private is_clone: boolean
 
     constructor(img: HTMLImageElement, costume_name: string, is_clone: boolean = false) {
         this.sprite = img
