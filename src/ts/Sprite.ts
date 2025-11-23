@@ -45,9 +45,11 @@ export default class Sprite {
         return this.is_clone
     }
 
-    constructor(img: HTMLImageElement, costume_name: string, is_clone: boolean = false) {
-        this.sprite = img
-        this.costumes[costume_name] = img.getAttribute('src') || ''
+    constructor(default_costume: string, costume_name: string, is_clone: boolean = false) {
+        this.sprite = document.createElement('img')
+        document.body.appendChild(this.sprite)
+        this.add_costume(costume_name, default_costume)
+        this.switch_costume(costume_name)
         this.is_clone = is_clone
 
         const rect = this.sprite.getBoundingClientRect()
