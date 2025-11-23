@@ -6,6 +6,7 @@ export default class Sprite {
     private position: {'x': number, 'y': number}
     private broadcasts: { [broadcastName: string]: Function[] } = {}
     private costumes: { [costumeName: string]: string} = {}
+    private current_costume: string = ""
     private scale: number = 100
     private color: number = 0
     private ghost: number = 0
@@ -19,6 +20,10 @@ export default class Sprite {
 
     public get Position(): {'x': number, 'y': number} {
         return this.position
+    }
+
+    public get CurrentCostume(): string {
+        return this.current_costume
     }
 
     public get Scale(): number {
@@ -317,6 +322,7 @@ export default class Sprite {
     public switch_costume(costume_name: string) {
         if (this.costumes[costume_name]) {
             this.sprite.setAttribute('src', this.costumes[costume_name])
+            this.current_costume = costume_name
         }
     }
 
