@@ -13,6 +13,38 @@ export default class Sprite {
     private hidden: boolean = false
     private is_clone: boolean
 
+    public get Direction(): number {
+        return this.direction
+    }
+
+    public get Position(): {'x': number, 'y': number} {
+        return this.position
+    }
+
+    public get Scale(): number {
+        return this.scale
+    }
+
+    public get Color(): number {
+        return this.color
+    }
+
+    public get Ghost(): number {
+        return this.ghost
+    }
+
+    public get Brightness(): number {
+        return this.brightness
+    }
+
+    public get isHidden(): boolean {
+        return this.hidden
+    }
+
+    public get isClone(): boolean {
+        return this.is_clone
+    }
+
     constructor(img: HTMLImageElement, costume_name: string, is_clone: boolean = false) {
         this.sprite = img
         this.costumes[costume_name] = img.getAttribute('src') || ''
