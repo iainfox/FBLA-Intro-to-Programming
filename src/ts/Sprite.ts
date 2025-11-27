@@ -2,8 +2,8 @@ export default class Sprite {
     private sprite: HTMLImageElement
     private touching_mouse: boolean = false
     private on_click: Function | null = null
-    private direction: number
-    private position: {'x': number, 'y': number}
+    private direction: number = 90
+    private position: {'x': number, 'y': number} = {'x': 0, 'y': 0}
     private broadcasts: { [broadcastName: string]: Function[] } = {}
     private costumes: { [costumeName: string]: string} = {}
     private current_costume: string = ""
@@ -57,28 +57,7 @@ export default class Sprite {
         this.switch_costume(costume_name)
         this.is_clone = is_clone
 
-        const rect = this.sprite.getBoundingClientRect()
-
-        const width = this.sprite.offsetWidth
-        const height = this.sprite.offsetHeight
-        this.sprite.style.position = "absolute"
-
-        const cssX = rect.left + width / 2
-        const cssY = rect.top + height / 2
-
-        const centerX = window.innerWidth / 2
-        const centerY = window.innerHeight / 2
-        const userX = cssX - centerX
-        const userY = centerY - cssY
-
-        this.position = {'x': userX, 'y': userY}
-
-        this.sprite.style.left = `${cssX}px`
-        this.sprite.style.top = `${cssY}px`
-
-        this.direction = 90
-        this.update_look()
-
+        // TODO: implement a canvas click and text
         this.sprite.addEventListener('mouseenter', () => {
             this.touching_mouse = true
         })
@@ -87,7 +66,7 @@ export default class Sprite {
         })
         this.sprite.addEventListener('mouseclick', () => {
             if (this.on_click) {
-                this.on_click();
+                this.on_click()
             }
         })
     }
@@ -109,17 +88,6 @@ export default class Sprite {
     }
 
     /**
-     * Updates the CSS position of the sprite based on the current user coordinates.
-     * 
-     * @private
-     */
-    private updateCssPosition() {
-        const {cssX, cssY} = this.userToCss(this.position.x, this.position.y)
-        this.sprite.style.left = `${cssX}px`
-        this.sprite.style.top = `${cssY}px`
-    }
-
-    /**
      * Calls the callback function associated with a broadcast message if it exists.
      * 
      * @param {string} broadcast_name
@@ -130,7 +98,7 @@ export default class Sprite {
         
         if (this.broadcasts?.[broadcast_name]) {
             this.broadcasts[broadcast_name]?.forEach(funct => {
-                funct();
+                funct()
             });
         }
     }
@@ -145,9 +113,9 @@ export default class Sprite {
         if (!this.broadcasts) return
 
         if (!this.broadcasts[broadcast_name]) {
-            this.broadcasts[broadcast_name] = [];
+            this.broadcasts[broadcast_name] = []
         }
-        this.broadcasts[broadcast_name].push(broadcast_callback);
+        this.broadcasts[broadcast_name].push(broadcast_callback)
     }
 
     /**
@@ -166,19 +134,7 @@ export default class Sprite {
      * @returns {boolean} True if the mouse pointer is touching the sprite, false otherwise.
      */
     public get isTouchingMousePointer() : boolean {
-        return this.touching_mouse ?? false;
-    }
-
-    /**
-     * Updates the rotation of the sprite element according to its direction.
-     * Should be called whenever the direction property changes.
-     * 
-     * @private
-     */
-    private update_look() {
-        this.sprite.style.transform = `translate(-50%, -50%) rotate(${this.direction - 90}deg) scale(${this.scale/100})`
-        this.sprite.style.filter = `brightness(${(this.brightness+100)/200}) opacity(${100-this.ghost})`
-        this.sprite.style.display = this.hidden ? 'none' : 'initial'
+        return this.touching_mouse ?? false
     }
 
     /**
@@ -189,7 +145,6 @@ export default class Sprite {
      */
     public set turn_x_degrees_clockwise(degrees: number) {
         this.direction += degrees
-        this.update_look()
     }
 
     /**
@@ -200,7 +155,6 @@ export default class Sprite {
      */
     public set turn_x_degrees_counter_clockwise(degrees: number) {
         this.direction -= degrees
-        this.update_look()
     }
 
     /**
@@ -211,7 +165,6 @@ export default class Sprite {
      */
     public set point_in_direction(degrees: number) {
         this.direction = degrees
-        this.update_look()
     }
 
     /**
@@ -221,12 +174,11 @@ export default class Sprite {
      * the number of steps to take
      */
     public move_x_steps(steps: number) {
-        const directionRadians = (this.direction - 90) * (Math.PI / 180);
-        const x = Math.cos(directionRadians) * steps;
-        const y = -Math.sin(directionRadians) * steps;
-        this.position.x += x;
-        this.position.y += y;
-        this.updateCssPosition();
+        const directionRadians = (this.direction - 90) * (Math.PI / 180)
+        const x = Math.cos(directionRadians) * steps
+        const y = -Math.sin(directionRadians) * steps
+        this.position.x += x
+        this.position.y += y
     }
 
     /**
@@ -239,7 +191,6 @@ export default class Sprite {
      */
     public go_to_xy(x: number, y: number) {
         this.position = {'x': x, 'y': y}
-        this.updateCssPosition()
     }
 
     /**
@@ -250,7 +201,6 @@ export default class Sprite {
      */
     public change_x_by(x: number) {
         this.position.x += x
-        this.updateCssPosition()
     }
 
     /**
@@ -261,7 +211,6 @@ export default class Sprite {
      */
     public change_y_by(y: number) {
         this.position.y += y
-        this.updateCssPosition()
     }
 
     /**
@@ -272,7 +221,6 @@ export default class Sprite {
      */
     public set_x_to(x: number) {
         this.position.x = x
-        this.updateCssPosition()
     }
 
     /**
@@ -283,7 +231,6 @@ export default class Sprite {
      */
     public set_y_to(y: number) {
         this.position.y = y
-        this.updateCssPosition()
     }
 
     /**
@@ -298,7 +245,6 @@ export default class Sprite {
         const new_direction_radians = Math.atan2(-(y2-this.position.y), x2-this.position.x)
         const new_direction_degrees = new_direction_radians * (180/Math.PI)
         this.direction = new_direction_degrees + 90
-        this.update_look()
     }
 
     /**
@@ -321,7 +267,6 @@ export default class Sprite {
      */
     public switch_costume(costume_name: string) {
         if (this.costumes[costume_name]) {
-            this.sprite.setAttribute('src', this.costumes[costume_name])
             this.current_costume = costume_name
         }
     }
@@ -334,8 +279,7 @@ export default class Sprite {
      */
     public change_size_by_x(x: number) {
         this.scale += x
-        this.scale = Math.min(Math.max(this.scale, 0), 500);
-        this.update_look()
+        this.scale = Math.min(Math.max(this.scale, 0), 500)
     }
 
     /**
@@ -345,8 +289,7 @@ export default class Sprite {
      * The number to change the sprite's size to.
      */
     public set_size_to_x(x: number) {
-        this.scale = Math.min(Math.max(x, 0), 500);
-        this.update_look()
+        this.scale = Math.min(Math.max(x, 0), 500)
     }
 
     /**
@@ -359,22 +302,21 @@ export default class Sprite {
         switch (effect_name) {
             case "color":
                 this.color += x
-                this.color = this.color%360;
-                break;
+                this.color = this.color%360
+                break
             
             case "ghost":
                 this.ghost -= x
-                this.ghost = Math.min(Math.max(this.ghost, 0), 100);
-                break;
+                this.ghost = Math.min(Math.max(this.ghost, 0), 100)
+                break
             
             case "brightness":
-                this.brightness += x;
-                this.brightness = Math.min(Math.max(this.brightness, -100), 100);
-                break;
+                this.brightness += x
+                this.brightness = Math.min(Math.max(this.brightness, -100), 100)
+                break
             default:
-                break;
+                break
         }
-        this.update_look()
     }
 
     /**
@@ -387,21 +329,20 @@ export default class Sprite {
         switch (effect_name) {
             case "color":
                 this.color = x
-                this.color = this.color%360;
-                break;
+                this.color = this.color%360
+                break
             
             case "ghost":
-                this.ghost = Math.min(Math.max(x, 0), 100);
-                break;
+                this.ghost = Math.min(Math.max(x, 0), 100)
+                break
             
             case "brightness":
-                this.brightness = Math.min(Math.max(x, -100), 100);
-                break;
+                this.brightness = Math.min(Math.max(x, -100), 100)
+                break
         
             default:
-                break;
+                break
         }
-        this.update_look()
     }
 
     /**
@@ -409,7 +350,6 @@ export default class Sprite {
      */
     public show() {
         this.hidden = false
-        this.update_look()
     }
 
     /**
@@ -417,7 +357,6 @@ export default class Sprite {
      */
     public hide() {
         this.hidden = true
-        this.update_look()
     }
 
     /**
