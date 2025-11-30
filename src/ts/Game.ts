@@ -43,4 +43,18 @@ export default class Game {
     public add_sprite(sprite: Sprite) {
         this.sprite_list.push(sprite)
     }
+
+    /**
+     * Updates every sprite in the sprite list.
+     */
+    public render() {
+        if (!this.canvas_context) return
+        const ctx = this.canvas_context
+
+        this.sprite_list.forEach(sprite => {
+            ctx.filter = `brightness(${sprite.Brightness}%) hue-rotate(${sprite.Color}deg) opacity(${sprite.Ghost}%)`
+            // Draw sprite
+            ctx.filter = ``
+        });
+    }
 }
