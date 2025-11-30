@@ -50,6 +50,14 @@ export default class Sprite {
         return this.is_clone
     }
 
+    /**
+     * Creates a new sprite with an initial costume.
+     * 
+     * @param {string} costume_name
+     * The name to assign to the costume.
+     * @param {string} image_url
+     * The URL or path to the costume image.
+     */
     constructor(default_costume: string, costume_name: string, is_clone: boolean = false) {
         this.add_costume(costume_name, default_costume)
         this.switch_costume(costume_name)
