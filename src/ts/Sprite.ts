@@ -1,6 +1,6 @@
 export default class Sprite {
     private touching_mouse: boolean = false
-    private on_click: Function | null = null
+    private on_click: Function[] = []
     private direction: number = 90
     private position: {'x': number, 'y': number} = {'x': 0, 'y': 0}
     private broadcasts: { [broadcastName: string]: Function[] } = {}
@@ -111,13 +111,13 @@ export default class Sprite {
     }
 
     /**
-     * Sets the callback function to be called when the sprite is clicked.
+     * Adds a callback function to be called when the sprite is clicked.
      * 
      * @param {Function} v
      * The function to call on click
      */
-    public set set_on_click(v : Function) {
-        this.on_click = v
+    public set add_on_click(v : Function) {
+        this.on_click.push(v)
     }
     
     /**
