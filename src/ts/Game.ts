@@ -3,9 +3,13 @@ import Sprite from 'Sprite'
 export default class Game {
     private backdrop: Sprite
     private sprite_list: Sprite[] = []
+    private canvas: HTMLCanvasElement
+    private canvas_context: CanvasRenderingContext2D | null
 
-    constructor (backdrop: Sprite) {
+    constructor (backdrop: Sprite, canvas: HTMLCanvasElement) {
         this.backdrop = backdrop
+        this.canvas = canvas
+        this.canvas_context = this.canvas.getContext("2d")
     }
 
     /**
