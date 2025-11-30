@@ -1,5 +1,4 @@
 export default class Sprite {
-    private sprite: HTMLImageElement
     private touching_mouse: boolean = false
     private on_click: Function | null = null
     private direction: number = 90
