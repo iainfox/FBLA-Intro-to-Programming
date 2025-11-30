@@ -2,6 +2,7 @@ import Sprite from 'Sprite'
 
 export default class Game {
     private backdrop: Sprite
+    private sprite_list: Sprite[] = []
 
     constructor (backdrop: Sprite) {
         this.backdrop = backdrop
@@ -27,5 +28,15 @@ export default class Game {
      */
     public switch_bostume(backdrop_name: string) {
         this.backdrop.switch_costume(backdrop_name)
+    }
+
+    /**
+     * Adds a sprite to the game's sprite list
+     * 
+     * @param {Sprite} sprite
+     * The sprite object to add
+     */
+    public add_sprite(sprite: Sprite) {
+        this.sprite_list.push(sprite)
     }
 }
