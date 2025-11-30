@@ -4,7 +4,7 @@ export default class Sprite {
     private direction: number = 90
     private position: {'x': number, 'y': number} = {'x': 0, 'y': 0}
     private broadcasts: { [broadcastName: string]: Function[] } = {}
-    private costumes: { [costumeName: string]: string} = {}
+    private costumes: { [costumeName: string]: HTMLImageElement} = {}
     private current_costume: string = ""
     private scale: number = 100
     private color: number = 0
@@ -52,13 +52,21 @@ export default class Sprite {
     /**
      * Creates a new sprite with an initial costume.
      * 
+     * @param {string|HTMLImageElement} default_costume
+     * The URL/path to the costume image or an already loaded HTMLImageElement.
      * @param {string} costume_name
      * The name to assign to the costume.
-     * @param {string} image_url
-     * The URL or path to the costume image.
+     * @param {boolean} is_clone
+     * Whether this sprite is a clone.
      */
-    constructor(default_costume: string, costume_name: string, is_clone: boolean = false) {
-        this.add_costume(costume_name, default_costume)
+    constructor(default_costume: string | HTMLImageElement, costume_name: string, is_clone: boolean = false) {
+        if (default_costume instanceof HTMLImageElement) {
+            this.costumes[costume_name] = default_costume
+        } else {
+            this.add_costume(costume_name, default_costume).catch(err => {
+                console.error(`Failed to load initial costume "${costume_name}":`, err)
+            })
+        }
         this.switch_costume(costume_name)
         this.is_clone = is_clone
     }
@@ -240,15 +248,30 @@ export default class Sprite {
     }
 
     /**
-     * Adds a costume to the sprite.
+     * Adds a costume to the sprite by loading an image from a URL.
      * 
      * @param {string} costume_name
      * the name of the costume
      * @param {string} image_url
-     * the URL of the costume image
+     * the URL or path to the costume image
+     * @returns {Promise<HTMLImageElement>}
+     * A promise that resolves when the image is loaded, or rejects if loading fails.
      */
-    public add_costume(costume_name: string, image_url: string) {
-        this.costumes[costume_name] = image_url
+    public add_costume(costume_name: string, image_url: string): Promise<HTMLImageElement> {
+        return new Promise((resolve, reject) => {
+            const img = new Image()
+            
+            img.onload = () => {
+                this.costumes[costume_name] = img
+                resolve(img)
+            }
+            
+            img.onerror = () => {
+                reject(new Error(`Failed to load image from URL: ${image_url}`))
+            }
+            
+            img.src = image_url
+        })
     }
 
     /**
@@ -256,11 +279,28 @@ export default class Sprite {
      * 
      * @param {string} costume_name
      * The name of the costume to switch to.
+     * @returns {boolean}
+     * True if the costume was switched successfully, false if the costume doesn't exist.
      */
-    public switch_costume(costume_name: string) {
+    public switch_costume(costume_name: string): boolean {
         if (this.costumes[costume_name]) {
             this.current_costume = costume_name
+            return true
         }
+        return false
+    }
+
+    /**
+     * Gets the current costume's image element.
+     * 
+     * @returns {HTMLImageElement | undefined}
+     * The image element for the current costume, or undefined if no costume is set.
+     */
+    public get_current_costume_image(): HTMLImageElement | undefined {
+        if (this.current_costume && this.costumes[this.current_costume]) {
+            return this.costumes[this.current_costume]
+        }
+        return undefined
     }
 
     /**
