@@ -1,6 +1,6 @@
 export default class Sprite {
     private touching_mouse: boolean = false
-    private on_click: Function[] = []
+    private on_click_callbacks: Function[] = []
     private direction: number = 90
     private position: {'x': number, 'y': number} = {'x': 0, 'y': 0}
     private broadcasts: { [broadcastName: string]: Function[] } = {}
@@ -47,6 +47,10 @@ export default class Sprite {
 
     public get isClone(): boolean {
         return this.is_clone
+    }
+    
+    public get onClickCallbacks(): Function[] {
+        return this.on_click_callbacks
     }
 
     /**
@@ -125,7 +129,7 @@ export default class Sprite {
      * The function to call on click
      */
     public set add_on_click(v : Function) {
-        this.on_click.push(v)
+        this.on_click_callbacks.push(v)
     }
     
     /**
