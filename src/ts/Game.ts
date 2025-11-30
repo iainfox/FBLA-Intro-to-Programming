@@ -51,10 +51,12 @@ export default class Game {
         if (!this.canvas_context) return
         const ctx = this.canvas_context
 
-        this.sprite_list.forEach(sprite => {
+        for (const sprite of this.sprite_list) {
+            if (sprite.isHidden) continue
+
             ctx.filter = `brightness(${sprite.Brightness}%) hue-rotate(${sprite.Color}deg) opacity(${sprite.Ghost}%)`
             // Draw sprite
             ctx.filter = ``
-        });
+        }
     }
 }
