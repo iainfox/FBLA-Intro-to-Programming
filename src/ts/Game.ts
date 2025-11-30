@@ -10,6 +10,38 @@ export default class Game {
         this.backdrop = backdrop
         this.canvas = canvas
         this.canvas_context = this.canvas.getContext("2d")
+
+        this.canvas.addEventListener('click', (e: MouseEvent) => {
+            const rect = this.canvas.getBoundingClientRect()
+            const mouseX = e.clientX - rect.left
+            const mouseY = e.clientY - rect.top
+
+            for (const sprite of this.sprite_list) {
+                if (sprite.isHidden) continue
+
+                const sprite_image = sprite.get_current_costume_image();
+                if (sprite_image) {
+                    const sprite_width = sprite_image.width;
+                    const sprite_height = sprite_image.height;
+
+                    const left = sprite.Position.x - sprite_width / 2;
+                    const right = sprite.Position.x + sprite_width / 2;
+                    const top = sprite.Position.y - sprite_height / 2;
+                    const bottom = sprite.Position.y + sprite_height / 2;
+
+                    if (
+                        mouseX >= left &&
+                        mouseX <= right &&
+                        mouseY >= top &&
+                        mouseY <= bottom
+                    ) {
+                        sprite.onClickCallbacks.forEach(callback => {
+                            callback()
+                        });
+                    }
+                }
+            }
+        })
     }
 
     /**
