@@ -51,24 +51,9 @@ export default class Sprite {
     }
 
     constructor(default_costume: string, costume_name: string, is_clone: boolean = false) {
-        this.sprite = document.createElement('img')
-        document.body.appendChild(this.sprite)
         this.add_costume(costume_name, default_costume)
         this.switch_costume(costume_name)
         this.is_clone = is_clone
-
-        // TODO: implement a canvas click and text
-        this.sprite.addEventListener('mouseenter', () => {
-            this.touching_mouse = true
-        })
-        this.sprite.addEventListener('mouseleave', () => {
-            this.touching_mouse = false
-        })
-        this.sprite.addEventListener('mouseclick', () => {
-            if (this.on_click) {
-                this.on_click()
-            }
-        })
     }
 
     /**
