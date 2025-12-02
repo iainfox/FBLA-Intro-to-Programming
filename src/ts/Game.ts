@@ -112,6 +112,10 @@ export default class Game {
         if (!this.canvas_context) return
         const ctx = this.canvas_context
 
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        const backdrop_image = this.backdrop.get_current_costume_image()
+        if (backdrop_image) { ctx.drawImage(backdrop_image, 0, 0, this.canvas.width, this.canvas.height) }
+
         for (const sprite of this.sprite_list) {
             if (sprite.isHidden) continue
             const sprite_image = sprite.get_current_costume_image()
