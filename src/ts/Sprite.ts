@@ -91,22 +91,6 @@ export default class Sprite {
     }
 
     /**
-     * Converts user coordinates (center-origin, Y-down) to CSS coordinates (top-left origin).
-     * 
-     * @param {number} userX - The x coordinate in user (center-origin) space.
-     * @param {number} userY - The y coordinate in user (center-origin) space.
-     * @returns {{cssX: number, cssY: number}} The equivalent CSS coordinates (top-left origin).
-     * 
-     */
-    public userToCss(userX: number, userY: number): {cssX: number, cssY: number} {
-        const centerX = window.innerWidth / 2
-        const centerY = window.innerHeight / 2
-        const cssX = centerX + userX
-        const cssY = centerY - userY
-        return {cssX, cssY}
-    }
-
-    /**
      * Calls the callback function associated with a broadcast message if it exists.
      * 
      * @param {string} broadcast_name

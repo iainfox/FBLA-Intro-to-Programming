@@ -90,6 +90,22 @@ export default class Game {
     }
 
     /**
+     * Converts user coordinates (center-origin, Y-down) to CSS coordinates (top-left origin).
+     * 
+     * @param {number} userX - The x coordinate in user (center-origin) space.
+     * @param {number} userY - The y coordinate in user (center-origin) space.
+     * @returns {{css_x: number, css_y: number}} The equivalent CSS coordinates (top-left origin).
+     * 
+     */
+    public userToCss(userX: number, userY: number): {css_x: number, css_y: number} {
+        const centerX = window.innerWidth / 2
+        const centerY = window.innerHeight / 2
+        const css_x = centerX + userX
+        const css_y = centerY - userY
+        return {css_x, css_y}
+    }
+
+    /**
      * Updates every sprite in the sprite list.
      */
     public render() {
@@ -102,13 +118,15 @@ export default class Game {
             if (sprite_image) {
                 ctx.filter = `brightness(${(sprite.Brightness+100)/2}%) hue-rotate(${sprite.Color}deg) opacity(${sprite.Ghost}%)`
 
+                const {css_x, css_y} = this.userToCss(sprite.Position.x, sprite.Position.y)
+
                 // Draw sprite
                 const drawWidth = sprite_image.width * (sprite.Scale / 100)
                 const drawHeight = sprite_image.height * (sprite.Scale / 100)
                 ctx.drawImage(
                     sprite_image,
-                    sprite.Position.x - drawWidth / 2,
-                    sprite.Position.y - drawHeight / 2,
+                    css_x - drawWidth / 2,
+                    css_y - drawHeight / 2,
                     drawWidth,
                     drawHeight
                 )
