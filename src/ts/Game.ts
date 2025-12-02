@@ -43,6 +43,19 @@ export default class Game {
             }
         })
     }
+    
+    /**
+     * Broadcasts the specified message to all sprites.
+     * 
+     * @param {string} broadcast_name
+     * The name of the broadcast message to send.
+     */
+    public broadcast(broadcast_name: string) {
+        if (!this.sprite_list) return
+        this.sprite_list.forEach(sprite => {
+            sprite.recieve_broadcast(broadcast_name)
+        });
+    }
 
     /**
      * Adds a new backdrop image to the backdrop.
