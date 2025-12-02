@@ -11,7 +11,7 @@ export default class Sprite {
     private ghost: number = 0
     private brightness: number = 100
     private hidden: boolean = false
-    private is_clone: boolean
+    private is_clone: boolean = false
 
     public get Direction(): number {
         return this.direction
@@ -54,16 +54,32 @@ export default class Sprite {
     }
 
     /**
-     * Creates a new sprite with an initial costume.
+     * Creates a new sprite. This constructor supports two cases:
+     * 1. Creating a new sprite from a costume.
+     * 2. Creating a blank clone of an existing sprite.
+     *
+     * @param {boolean|string|HTMLImageElement} param1 - 
+     * If creating a clone, pass `true`.
+     * If loading a costume, pass the URL string or HTMLImageElement instance.
      * 
-     * @param {string|HTMLImageElement} default_costume
-     * The URL/path to the costume image or an already loaded HTMLImageElement.
-     * @param {string} costume_name
-     * The name to assign to the costume.
-     * @param {boolean} is_clone
-     * Whether this sprite is a clone.
+     * @param {string} [param2] - 
+     * Required if `param1` is a costume source (the name to assign to the costume).
+     * Should be omitted if `param1` is `true`.
      */
-    constructor(default_costume: string | HTMLImageElement, costume_name: string, is_clone: boolean = false) {
+    constructor(is_clone: boolean)
+    constructor(default_costume: string | HTMLImageElement, costume_name: string) 
+    constructor(
+        param1: boolean | string | HTMLImageElement,
+        param2?: string
+    ) {
+        if (typeof param1 == 'boolean' && param1 === true && param2 === undefined) {
+            this.is_clone = true
+            return
+        }
+
+        const default_costume = param1 as string | HTMLImageElement;
+        const costume_name = param2 as string;
+
         if (default_costume instanceof HTMLImageElement) {
             this.costumes[costume_name] = default_costume
         } else {
@@ -72,7 +88,6 @@ export default class Sprite {
             })
         }
         this.switch_costume(costume_name)
-        this.is_clone = is_clone
     }
 
     /**
