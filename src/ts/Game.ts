@@ -98,10 +98,23 @@ export default class Game {
 
         for (const sprite of this.sprite_list) {
             if (sprite.isHidden) continue
+            const sprite_image = sprite.get_current_costume_image()
+            if (sprite_image) {
+                ctx.filter = `brightness(${(sprite.Brightness+100)/2}%) hue-rotate(${sprite.Color}deg) opacity(${sprite.Ghost}%)`
 
-            ctx.filter = `brightness(${(sprite.Brightness+100)/2}%) hue-rotate(${sprite.Color}deg) opacity(${sprite.Ghost}%)`
-            // Draw sprite
-            ctx.filter = ``
+                // Draw sprite
+                const drawWidth = sprite_image.width * (sprite.Scale / 100)
+                const drawHeight = sprite_image.height * (sprite.Scale / 100)
+                ctx.drawImage(
+                    sprite_image,
+                    sprite.Position.x - drawWidth / 2,
+                    sprite.Position.y - drawHeight / 2,
+                    drawWidth,
+                    drawHeight
+                )
+
+                ctx.filter = ``
+            }
         }
     }
 }
