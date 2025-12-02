@@ -90,22 +90,6 @@ export default class Game {
     }
 
     /**
-     * Converts user coordinates (center-origin, Y-down) to CSS coordinates (top-left origin).
-     * 
-     * @param {number} userX - The x coordinate in user (center-origin) space.
-     * @param {number} userY - The y coordinate in user (center-origin) space.
-     * @returns {{css_x: number, css_y: number}} The equivalent CSS coordinates (top-left origin).
-     * 
-     */
-    public userToCss(userX: number, userY: number): {css_x: number, css_y: number} {
-        const centerX = window.innerWidth / 2
-        const centerY = window.innerHeight / 2
-        const css_x = centerX + userX
-        const css_y = centerY - userY
-        return {css_x, css_y}
-    }
-
-    /**
      * Updates every sprite in the sprite list.
      */
     public render() {
@@ -120,17 +104,15 @@ export default class Game {
             if (sprite.isHidden) continue
             const sprite_image = sprite.get_current_costume_image()
             if (sprite_image) {
-                ctx.filter = `brightness(${(sprite.Brightness+100)/2}%) hue-rotate(${sprite.Color}deg) opacity(${sprite.Ghost}%)`
-
-                const {css_x, css_y} = this.userToCss(sprite.Position.x, sprite.Position.y)
+                ctx.filter = `brightness(${(sprite.Brightness+100)/2}%) hue-rotate(${sprite.Color}deg) opacity(${100-sprite.Ghost}%)`
 
                 // Draw sprite
                 const drawWidth = sprite_image.width * (sprite.Scale / 100)
                 const drawHeight = sprite_image.height * (sprite.Scale / 100)
                 ctx.drawImage(
                     sprite_image,
-                    css_x - drawWidth / 2,
-                    css_y - drawHeight / 2,
+                    sprite.Position.x + this.canvas.width/2 - drawWidth / 2,
+                    sprite.Position.y + this.canvas.height/2 - drawHeight / 2,
                     drawWidth,
                     drawHeight
                 )
