@@ -411,32 +411,32 @@ export default class Sprite {
     }
 
     /**
-     * Creates a clone of this sprite.
+     * Creates a new clone of this sprite.
      * 
-     * The cloned sprite will appear at the same position,
-     * have the same direction, effects, and costume, but will be flagged as a clone.
-     * The DOM element is also cloned, and the clone is appended to the DOM.
+     * The cloned sprite will:
+     * - Be flagged as a clone.
+     * - Inherit the same position, direction, costume, scale, and effect values (color, ghost, brightness).
+     * - Make its own copies of the costumes, current costume, on-click callbacks, and broadcasts (not shared).
+     * - Have the same hidden/shown state.
      * 
-     * @returns {Sprite} 
+     * @returns {Sprite}
      * The cloned Sprite instance.
      */
     public create_clone(): Sprite {
-        const spriteCloneElem = this.sprite.cloneNode(true) as HTMLElement
-
-        const clone = Object.create(Object.getPrototypeOf(this))
-        Object.assign(clone, this)
-
-        clone.is_clone = true
-        clone.sprite = spriteCloneElem
-
-        if (this.sprite.parentElement) {
-            this.sprite.parentElement.appendChild(spriteCloneElem)
-        } else {
-            document.body.appendChild(spriteCloneElem)
-        }
-
-        clone.update_look()
-        clone.updateCssPosition?.()
+        const clone = new Sprite(true)
+        
+        clone.touching_mouse = this.touching_mouse
+        clone.on_click_callbacks = [...this.on_click_callbacks]
+        clone.direction = this.direction
+        clone.position = { x: this.position.x, y: this.position.y }
+        clone.broadcasts = { ...this.broadcasts }
+        clone.costumes = { ...this.costumes }
+        clone.current_costume = this.current_costume
+        clone.scale = this.scale
+        clone.color = this.color
+        clone.ghost = this.ghost
+        clone.brightness = this.brightness
+        clone.hidden = this.hidden
 
         return clone
     }
