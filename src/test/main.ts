@@ -1,35 +1,28 @@
-import Sprite from './ts/Sprite.js'
+import Sprite from '../ts/Sprite.js'
+import Game from '../ts/Game.js'
 
-const image = document.getElementById('temp') as HTMLImageElement | null
-if (!image) {
-	throw new Error('Image element with id "temp" not found')
-}
+const canvas = document.getElementById("a") as HTMLCanvasElement | null;
+if (!canvas) throw new Error("Canvas element with id 'a' not found.");
 
-const sprite = new Sprite(image, "costume1")
-sprite.go_to_xy(0, 0)
-const sprite2 = sprite.create_clone()
+const image = new Image();
+const loadPromise = new Promise<void>((resolve, reject) => {
+	image.onload = () => resolve();
+	image.onerror = reject;
+	image.src = "../../temp.jpg";
+});
+await loadPromise;
 
-let mouseX = 0;
-let mouseY = 0;
+const image2 = new Image();
+const load2Promise = new Promise<void>((resolve, reject) => {
+	image2.onload = () => resolve();
+	image2.onerror = reject;
+	image2.src = "../../temp.jpg";
+});
+await load2Promise;
 
-window.onmousemove = (event: MouseEvent) => {
-	const centerX = window.innerWidth / 2;
-	const centerY = window.innerHeight / 2;
-	mouseX = event.clientX - centerX;
-	mouseY = centerY - event.clientY;
-	
-	sprite.point_in_direction_xy(mouseX, mouseY);
-	sprite2.point_in_direction_xy(-mouseX, mouseY)
-};
+const sprite = new Sprite(image, "costume1");
+sprite.set_size_to_x(20);
+const game = new Game(new Sprite(image2, "backdrop1"), canvas);
 
-window.onmouseup = (event: MouseEvent) => {
-	if (event.button === 0) {
-		sprite.change_size_by_x(10);
-	} else if (event.button === 2) {
-		sprite.change_size_by_x(-10);
-	}
-};
-
-window.oncontextmenu = (e) => {
-	e.preventDefault();
-};
+game.add_sprite(sprite);
+game.render();
