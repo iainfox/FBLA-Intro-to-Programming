@@ -99,7 +99,7 @@ export default class Game {
         for (const sprite of this.sprite_list) {
             if (sprite.isHidden) continue
 
-            ctx.filter = `brightness(${sprite.Brightness}%) hue-rotate(${sprite.Color}deg) opacity(${sprite.Ghost}%)`
+            ctx.filter = `brightness(${(sprite.Brightness+100)/2}%) hue-rotate(${sprite.Color}deg) opacity(${sprite.Ghost}%)`
             // Draw sprite
             ctx.filter = ``
         }
