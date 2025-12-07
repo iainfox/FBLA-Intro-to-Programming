@@ -14,6 +14,7 @@ export default class Sprite {
     private brightness: number = 100
     private hidden: boolean = false
     private is_clone: boolean = false
+    private mouse_position: {'x': number, 'y': number} = {'x': 0, 'y': 0}
 
     public get Direction(): number {
         return this.direction
@@ -94,6 +95,10 @@ export default class Sprite {
             })
         }
         this.switch_costume(costume_name)
+
+        window.addEventListener("mousemove", (e) => {
+            this.mouse_position = {'x': e.clientX-window.innerWidth/2, 'y': e.clientY-window.innerHeight/2}
+        })
     }
 
     /**
