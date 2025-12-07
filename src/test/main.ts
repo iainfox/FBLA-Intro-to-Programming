@@ -21,4 +21,8 @@ sprite.set_size_to_x(20);
 const game = new Game(new Sprite(image2, "backdrop1"), canvas);
 
 game.add_sprite(sprite);
-game.render();
+function loop() {
+    game.render();
+    requestAnimationFrame(loop);
+}
+loop();
