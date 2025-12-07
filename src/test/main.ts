@@ -13,21 +13,8 @@ async function load_image(img_path: string) : Promise<HTMLImageElement> {
 const canvas = document.getElementById("a") as HTMLCanvasElement | null;
 if (!canvas) throw new Error("Canvas element with id 'a' not found.");
 
-const image = new Image();
-const loadPromise = new Promise<void>((resolve, reject) => {
-	image.onload = () => resolve();
-	image.onerror = reject;
-	image.src = "../../temp.jpg";
-});
-await loadPromise;
-
-const image2 = new Image();
-const load2Promise = new Promise<void>((resolve, reject) => {
-	image2.onload = () => resolve();
-	image2.onerror = reject;
-	image2.src = "../../temp.jpg";
-});
-await load2Promise;
+const image = await load_image("../../temp.jpg");
+const image2 = await load_image("../../temp.jpg");
 
 const sprite = new Sprite(image, "costume1");
 sprite.set_size_to_x(20);
