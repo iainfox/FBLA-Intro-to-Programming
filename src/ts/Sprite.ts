@@ -1,6 +1,7 @@
 export default class Sprite {
     private touching_mouse: boolean = false
     private on_click_callbacks: Function[] = []
+    private start_as_clone_callbacks: Function[] = []
     private direction: number = 90
     private position: {'x': number, 'y': number} = {'x': 0, 'y': 0}
     private broadcasts: { [broadcastName: string]: Function[] } = {}
@@ -430,7 +431,20 @@ export default class Sprite {
         clone.ghost = this.ghost
         clone.brightness = this.brightness
         clone.hidden = this.hidden
+        clone.start_as_clone_callbacks = [...this.start_as_clone_callbacks]
 
         return clone
+    }
+
+    /**
+     * Adds a callback function that will be called when the sprite starts as a clone.
+     * The callback function will receive the sprite instance as its first parameter.
+     * 
+     * @param {Function} callback
+     * The function to be called when the sprite starts as a clone.
+     * Should accept the sprite instance as a parameter: (sprite) => { ... }
+     */
+    public add_start_as_clone_callback(callback: Function) {
+        this.start_as_clone_callbacks.push(callback)
     }
 }
