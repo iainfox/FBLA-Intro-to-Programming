@@ -57,6 +57,11 @@ export default class Game {
         resize_canvas();
 
         const loop = () => {
+            for (const sprite of this.sprite_list) {
+                sprite.foreverCallbacks.forEach(callback => {
+                    callback(sprite)
+                });
+            }
             this.render();
             this.frame_count++
             requestAnimationFrame(loop);
