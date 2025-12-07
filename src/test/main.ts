@@ -10,15 +10,12 @@ async function load_image(img_path: string) : Promise<HTMLImageElement> {
     });
 }
 
-const canvas = document.getElementById("a") as HTMLCanvasElement | null;
-if (!canvas) throw new Error("Canvas element with id 'a' not found.");
-
 const image = await load_image("../../temp.jpg");
 const image2 = await load_image("../../temp.jpg");
 
 const sprite = new Sprite(image, "costume1");
 sprite.set_size_to_x(20);
-const game = new Game(new Sprite(image2, "backdrop1"), canvas);
+const game = new Game(new Sprite(image2, "backdrop1"), document.getElementById("a"));
 
 game.add_sprite(sprite);
 function loop() {
