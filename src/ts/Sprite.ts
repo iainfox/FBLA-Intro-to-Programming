@@ -1,5 +1,4 @@
 export default class Sprite {
-    private touching_mouse: boolean = false
     private on_click_callbacks: Function[] = []
     private start_as_clone_callbacks: Function[] = []
     private forever_callbacks: Function[] = []
@@ -122,6 +121,59 @@ export default class Sprite {
     }
 
     /**
+     * Checks if this sprite is touching another sprite or the mouse cursor.
+     * 
+     * @param {Sprite | "MouseCursor"} object2
+     * The other sprite or "MouseCursor" to check collision with.
+     */
+    public is_touching_x(object2: Sprite | "MouseCursor") : boolean {
+        const sprite_image = this.get_current_costume_image?.()
+
+        const scale = this.Scale / 100
+
+        const sprite_width = sprite_image ? sprite_image.width * scale : 0
+        const sprite_height = sprite_image ? sprite_image.height * scale : 0
+
+        const left = this.Position.x - sprite_width / 2
+        const right = this.Position.x + sprite_width / 2
+        const top = this.Position.y - sprite_height / 2
+        const bottom = this.Position.y + sprite_height / 2
+        if (object2 == "MouseCursor") {
+            if (
+                this.mouse_position.x >= left &&
+                this.mouse_position.x <= right &&
+                this.mouse_position.y >= top &&
+                this.mouse_position.y <= bottom
+            ) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            const obj2_image = object2.get_current_costume_image?.()
+            const obj2_scale = object2.Scale / 100
+            const obj2_width = obj2_image ? obj2_image.width * obj2_scale : 0
+            const obj2_height = obj2_image ? obj2_image.height * obj2_scale : 0
+
+            const obj2_left = object2.Position.x - obj2_width / 2
+            const obj2_right = object2.Position.x + obj2_width / 2
+            const obj2_top = object2.Position.y - obj2_height / 2
+            const obj2_bottom = object2.Position.y + obj2_height / 2
+
+            if (
+                left < obj2_right &&
+                right > obj2_left &&
+                top < obj2_bottom &&
+                bottom > obj2_top
+            ) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+
+    /**
      * Adds a callback function for the specified broadcast.
      * 
      * @param {string} broadcast_name - The name of the broadcast message.
@@ -157,15 +209,6 @@ export default class Sprite {
      */
     public add_forever_callback(callback: Function) {
         this.forever_callbacks.push(callback)
-    }
-    
-    /**
-     * Checks if the mouse pointer is currently over the sprite.
-     * 
-     * @returns {boolean} True if the mouse pointer is touching the sprite, false otherwise.
-     */
-    public get isTouchingMousePointer() : boolean {
-        return this.touching_mouse ?? false
     }
 
     /**
@@ -437,8 +480,7 @@ export default class Sprite {
      */
     public create_clone(): Sprite {
         const clone = new Sprite(true)
-        
-        clone.touching_mouse = this.touching_mouse
+
         clone.on_click_callbacks = [...this.on_click_callbacks]
         clone.direction = this.direction
         clone.position = { x: this.position.x, y: this.position.y }
