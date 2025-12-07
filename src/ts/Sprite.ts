@@ -13,7 +13,7 @@ export default class Sprite {
     private brightness: number = 100
     private hidden: boolean = false
     private is_clone: boolean = false
-    private mouse_position: {'x': number, 'y': number} = {'x': 0, 'y': 0}
+    private mouse_position: {'x': number | null, 'y': number | null} = {'x': null, 'y': null}
 
     public get Direction(): number {
         return this.direction
@@ -23,7 +23,7 @@ export default class Sprite {
         return this.position
     }
 
-    public get mousePosition(): {'x': number, 'y': number} {
+    public get mousePosition(): {'x': number | null, 'y': number | null} {
         return this.mouse_position
     }
 
@@ -139,6 +139,8 @@ export default class Sprite {
         const top = this.Position.y - sprite_height / 2
         const bottom = this.Position.y + sprite_height / 2
         if (object2 == "MouseCursor") {
+            if (!(this.mouse_position.x && this.mouse_position.y)) return false
+
             if (
                 this.mouse_position.x >= left &&
                 this.mouse_position.x <= right &&
