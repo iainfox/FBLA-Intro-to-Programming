@@ -101,7 +101,7 @@ export default class Sprite {
         
         if (this.broadcasts?.[broadcast_name]) {
             this.broadcasts[broadcast_name]?.forEach(funct => {
-                funct()
+                funct(this)
             });
         }
     }
@@ -111,6 +111,7 @@ export default class Sprite {
      * 
      * @param {string} broadcast_name - The name of the broadcast message.
      * @param {Function} broadcast_callback - The callback function to invoke when the broadcast is received.
+     * The callback should accept the sprite instance as a parameter: (sprite) => { ... }
      */
     public add_broadcast(broadcast_name: string, broadcast_callback: Function) {
         if (!this.broadcasts) return
@@ -123,9 +124,10 @@ export default class Sprite {
 
     /**
      * Adds a callback function to be called when the sprite is clicked.
+     * The callback function will receive the sprite instance as its first parameter.
      * 
      * @param {Function} v
-     * The function to call on click
+     * The function to call on click. Should accept the sprite instance as a parameter: (sprite) => { ... }
      */
     public set add_on_click(v : Function) {
         this.on_click_callbacks.push(v)
@@ -401,6 +403,7 @@ export default class Sprite {
      * - Be flagged as a clone.
      * - Inherit the same position, direction, costume, scale, and effect values (color, ghost, brightness).
      * - Make its own copies of the costumes, current costume, on-click callbacks, and broadcasts (not shared).
+     * - Callbacks will receive the clone instance when called (not the original).
      * - Have the same hidden/shown state.
      * 
      * @returns {Sprite}
@@ -413,7 +416,13 @@ export default class Sprite {
         clone.on_click_callbacks = [...this.on_click_callbacks]
         clone.direction = this.direction
         clone.position = { x: this.position.x, y: this.position.y }
-        clone.broadcasts = { ...this.broadcasts }
+        clone.broadcasts = {}
+        for (const broadcastName in this.broadcasts) {
+            const callbacks = this.broadcasts[broadcastName]
+            if (callbacks) {
+                clone.broadcasts[broadcastName] = [...callbacks]
+            }
+        }
         clone.costumes = { ...this.costumes }
         clone.current_costume = this.current_costume
         clone.scale = this.scale
