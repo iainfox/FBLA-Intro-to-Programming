@@ -10,11 +10,11 @@ async function load_image(img_path: string) : Promise<HTMLImageElement> {
     });
 }
 
-const image = await load_image("../../temp.jpg");
+const image = await load_image("../../../temp.jpg");
 
 const sprite = new Sprite(image, "costume1");
 sprite.set_size_to_x(200);
-const game = new Game("backdrop1", "../../temp.jpg", document.getElementById("a"));
+const game = new Game("backdrop1", "../../../temp.jpg", document.getElementById("a"));
 
 game.add_sprite(sprite);
 
