@@ -1,13 +1,18 @@
 import Sprite from 'Sprite'
 
 export default class Game {
-    private backdrop: Sprite
+    private backdrop_list: { [backdrop_name: string]: string } = {}
+    private current_backdrop: string
     private sprite_list: Sprite[] = []
     private canvas: HTMLCanvasElement
     private canvas_context: CanvasRenderingContext2D
 
-    constructor (backdrop: Sprite, canvas: HTMLElement | null) {
-        this.backdrop = backdrop
+    constructor (backdrop_name: string, backdrop_image_path: string, canvas: HTMLElement | null) {
+        document.body.style.backgroundRepeat = 'no-repeat'
+        document.body.style.backgroundSize = 'cover'
+        document.body.style.backgroundPosition = 'center'
+        this.add_backdrop(backdrop_name, backdrop_image_path)
+        this.current_backdrop = backdrop_name
         this.canvas = canvas as HTMLCanvasElement ?? (() => { throw new Error("Could not get canvas") })();
         this.canvas_context = this.canvas.getContext("2d") ?? (() => { throw new Error("Could not get canvas 2d context") })();
 
@@ -73,7 +78,7 @@ export default class Game {
      * the URL of the backdrop image
      */
     public add_backdrop(backdrop_name: string, image_url: string) {
-        this.backdrop.add_costume(backdrop_name, image_url)
+        this.backdrop_list[backdrop_name] = image_url
     }
 
     /**
@@ -82,8 +87,8 @@ export default class Game {
      * @param {string} backdrop_name
      * The name of the backdrop to switch to.
      */
-    public switch_bostume(backdrop_name: string) {
-        this.backdrop.switch_costume(backdrop_name)
+    public switch_costume(backdrop_name: string) {
+        this.current_backdrop = backdrop_name
     }
 
     /**
@@ -103,8 +108,7 @@ export default class Game {
         const ctx = this.canvas_context
 
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-        const backdrop_image = this.backdrop.get_current_costume_image()
-        if (backdrop_image) { ctx.drawImage(backdrop_image, 0, 0, this.canvas.width, this.canvas.height) }
+        document.body.style.backgroundImage = `url(${this.backdrop_list[this.current_backdrop]})`
 
         for (const sprite of this.sprite_list) {
             if (sprite.isHidden) continue
