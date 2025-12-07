@@ -42,6 +42,13 @@ export default class Game {
                 }
             }
         })
+
+        const resize_canvas = () => {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        };
+        window.addEventListener('resize', resize_canvas);
+        resize_canvas();
     }
     
     /**
