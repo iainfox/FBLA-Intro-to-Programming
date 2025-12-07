@@ -41,7 +41,7 @@ export default class Game {
                         mouseY <= bottom
                     ) {
                         sprite.onClickCallbacks.forEach(callback => {
-                            callback()
+                            callback(sprite)
                         });
                     }
                 }
