@@ -6,7 +6,7 @@ async function load_image(img_path: string) : Promise<HTMLImageElement> {
     return new Promise<HTMLImageElement>((resolve, reject) => {
         image.onload = () => resolve(image);
         image.onerror = reject;
-        image.src = "../../temp.jpg";
+        image.src = img_path;
     });
 }
 
