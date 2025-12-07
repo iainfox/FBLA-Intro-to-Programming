@@ -24,6 +24,10 @@ export default class Sprite {
         return this.position
     }
 
+    public get mousePosition(): {'x': number, 'y': number} {
+        return this.mouse_position
+    }
+
     public get CurrentCostume(): string {
         return this.current_costume
     }
