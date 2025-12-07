@@ -4,12 +4,12 @@ export default class Game {
     private backdrop: Sprite
     private sprite_list: Sprite[] = []
     private canvas: HTMLCanvasElement
-    private canvas_context: CanvasRenderingContext2D | null
+    private canvas_context: CanvasRenderingContext2D
 
     constructor (backdrop: Sprite, canvas: HTMLCanvasElement) {
         this.backdrop = backdrop
         this.canvas = canvas
-        this.canvas_context = this.canvas.getContext("2d")
+        this.canvas_context = this.canvas.getContext("2d") ?? (() => { throw new Error("Could not get canvas 2d context") })();
 
         this.canvas.addEventListener('click', (e: MouseEvent) => {
             const rect = this.canvas.getBoundingClientRect()
@@ -100,7 +100,6 @@ export default class Game {
      * Updates every sprite in the sprite list.
      */
     public render() {
-        if (!this.canvas_context) return
         const ctx = this.canvas_context
 
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
