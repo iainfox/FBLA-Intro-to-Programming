@@ -6,6 +6,7 @@ export default class Game {
     private sprite_list: Sprite[] = []
     private canvas: HTMLCanvasElement
     private canvas_context: CanvasRenderingContext2D
+    private frame_count: number = 0
 
     constructor (backdrop_name: string, backdrop_image_path: string, canvas: HTMLElement | null) {
         document.body.style.backgroundRepeat = 'no-repeat'
@@ -54,7 +55,18 @@ export default class Game {
         };
         window.addEventListener('resize', resize_canvas);
         resize_canvas();
+
+        const loop = () => {
+            this.render();
+            this.frame_count++
+            requestAnimationFrame(loop);
+        }
+        loop();
     }
+
+    public get currentFrameCount() : number {
+        return this.frame_count
+    }    
     
     /**
      * Broadcasts the specified message to all sprites.
