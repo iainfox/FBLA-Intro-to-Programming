@@ -2,6 +2,7 @@ export default class Sprite {
     private touching_mouse: boolean = false
     private on_click_callbacks: Function[] = []
     private start_as_clone_callbacks: Function[] = []
+    private forever_callbacks: Function[] = []
     private direction: number = 90
     private position: {'x': number, 'y': number} = {'x': 0, 'y': 0}
     private broadcasts: { [broadcastName: string]: Function[] } = {}
@@ -52,6 +53,10 @@ export default class Sprite {
     
     public get onClickCallbacks(): Function[] {
         return this.on_click_callbacks
+    }
+    
+    public get foreverCallbacks(): Function[] {
+        return this.forever_callbacks
     }
 
     /**
@@ -127,11 +132,22 @@ export default class Sprite {
      * Adds a callback function to be called when the sprite is clicked.
      * The callback function will receive the sprite instance as its first parameter.
      * 
-     * @param {Function} v
+     * @param {Function} callback
      * The function to call on click. Should accept the sprite instance as a parameter: (sprite) => { ... }
      */
-    public set add_on_click(v : Function) {
-        this.on_click_callbacks.push(v)
+    public add_on_click(callback: Function) {
+        this.on_click_callbacks.push(callback)
+    }
+
+    /**
+     * Adds a callback function that will be called on every frame/tick (forever).
+     * The callback function will receive the sprite instance as its first parameter.
+     * 
+     * @param {Function} callback
+     * The function to be called on every frame. Should accept the sprite instance as a parameter: (sprite) => { ... }
+     */
+    public add_forever_callback(callback: Function) {
+        this.forever_callbacks.push(callback)
     }
     
     /**
