@@ -6,9 +6,9 @@ export default class Game {
     private canvas: HTMLCanvasElement
     private canvas_context: CanvasRenderingContext2D
 
-    constructor (backdrop: Sprite, canvas: HTMLCanvasElement) {
+    constructor (backdrop: Sprite, canvas: HTMLCanvasElement | null) {
         this.backdrop = backdrop
-        this.canvas = canvas
+        this.canvas = canvas ?? (() => { throw new Error("Could not get canvas") })();
         this.canvas_context = this.canvas.getContext("2d") ?? (() => { throw new Error("Could not get canvas 2d context") })();
 
         this.canvas.addEventListener('click', (e: MouseEvent) => {
