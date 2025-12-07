@@ -55,7 +55,13 @@ export default class Game {
         };
         window.addEventListener('resize', resize_canvas);
         resize_canvas();
+    }
 
+    /**
+     * Starts the main render and logic loop, invoking forever callbacks on all sprites.
+     */
+    public start_loop() {
+        this.broadcast("Green Flag Clicked")
         const loop = () => {
             for (const sprite of this.sprite_list) {
                 sprite.foreverCallbacks.forEach(callback => {
