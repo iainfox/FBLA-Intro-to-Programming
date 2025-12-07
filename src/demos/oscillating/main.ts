@@ -1,5 +1,5 @@
-import Sprite from '../ts/Sprite.js'
-import Game from '../ts/Game.js'
+import Sprite from '../../ts/Sprite.js'
+import Game from '../../ts/Game.js'
 
 async function load_image(img_path: string) : Promise<HTMLImageElement> {
     const image = new Image();
