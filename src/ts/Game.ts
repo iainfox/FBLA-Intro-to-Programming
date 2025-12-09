@@ -156,7 +156,7 @@ export default class Game {
         const ctx = this.canvas_context
         ctx.save()
         ctx.translate(x + width / 2, y + height / 2)
-        ctx.rotate(deg * Math.PI / 180)
+        ctx.rotate((deg-90) * Math.PI / 180)
         ctx.drawImage(image, width / 2 * (-1), height / 2 * (-1), width, height)
         ctx.restore()
     }
