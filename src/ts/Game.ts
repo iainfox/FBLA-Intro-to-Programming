@@ -60,9 +60,9 @@ export default class Game {
     /**
      * Starts the main render and logic loop, invoking forever callbacks on all sprites.
      */
-    public start_loop() {
+    public start_loop(fps: number) {
         this.broadcast("Green Flag Clicked")
-        const target_fps = 60;
+        const target_fps = fps;
         const frame_delay = 1000 / target_fps;
         let last_frame_time: DOMHighResTimeStamp = performance.now();
 
