@@ -20,4 +20,4 @@ game.add_sprite(sprite);
 
 sprite.add_forever_callback(() => sprite.set_x_to(Math.sin(game.currentFrameCount/2)*20))
 
-game.start_loop()
+game.start_loop(60)

@@ -20,5 +20,5 @@ game.add_sprite(sprite);
 
 sprite.add_forever_callback(() => { sprite.is_touching_x("MouseCursor") ? sprite.set_size_to_x(200) : sprite.set_size_to_x(100) })
 
-game.start_loop()
+game.start_loop(60)
 

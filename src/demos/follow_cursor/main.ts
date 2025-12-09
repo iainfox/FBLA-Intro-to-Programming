@@ -22,4 +22,4 @@ window.addEventListener("mousemove", (e) => {
     sprite.set_y_to(e.clientY-window.innerHeight/2)
 })
 
-game.start_loop()
+game.start_loop(60)
