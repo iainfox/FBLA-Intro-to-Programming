@@ -125,6 +125,31 @@ export default class Game {
     }
 
     /**
+     * Draws an image with rotation at the specified position and size.
+     *
+     * @param {HTMLImageElement} image
+     * The image to draw.
+     * @param {number} x
+     * The x-coordinate of the top-left corner where the image will be drawn.
+     * @param {number} y
+     * The y-coordinate of the top-left corner where the image will be drawn.
+     * @param {number} width
+     * The width to draw the image.
+     * @param {number} height
+     * The height to draw the image.
+     * @param {number} deg
+     * The rotation angle in degrees.
+     */
+    private draw_image_rotated(image: HTMLImageElement, x: number, y: number, width: number, height: number, deg: number){
+        const ctx = this.canvas_context
+        ctx.save()
+        ctx.translate(x + width / 2, y + height / 2)
+        ctx.rotate(deg * Math.PI / 180)
+        ctx.drawImage(image, width / 2 * (-1), height / 2 * (-1), width, height)
+        ctx.restore()
+    }
+
+    /**
      * Updates every sprite in the sprite list.
      */
     public render() {
@@ -142,12 +167,13 @@ export default class Game {
                 // Draw sprite
                 const drawWidth = sprite_image.width * (sprite.Scale / 100)
                 const drawHeight = sprite_image.height * (sprite.Scale / 100)
-                ctx.drawImage(
+                this.draw_image_rotated(
                     sprite_image,
                     sprite.Position.x + this.canvas.width/2 - drawWidth / 2,
                     sprite.Position.y + this.canvas.height/2 - drawHeight / 2,
                     drawWidth,
-                    drawHeight
+                    drawHeight,
+                    sprite.Direction
                 )
 
                 ctx.filter = ``
