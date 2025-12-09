@@ -219,7 +219,7 @@ export default class Sprite {
      * @param {number} degrees
      * The number of degrees to rotate clockwise.
      */
-    public set turn_x_degrees_clockwise(degrees: number) {
+    public turn_x_degrees_clockwise(degrees: number) {
         this.direction += degrees
     }
 
@@ -229,7 +229,7 @@ export default class Sprite {
      * @param {number} degrees
      * The number of degrees to rotate counterclockwise.
      */
-    public set turn_x_degrees_counter_clockwise(degrees: number) {
+    public turn_x_degrees_counter_clockwise(degrees: number) {
         this.direction -= degrees
     }
 
@@ -239,7 +239,7 @@ export default class Sprite {
      * @param {number} degrees
      * The direction in degrees to point the sprite.
      */
-    public set point_in_direction(degrees: number) {
+    public point_in_direction(degrees: number) {
         this.direction = degrees
     }
 
