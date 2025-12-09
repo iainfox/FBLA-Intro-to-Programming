@@ -1,5 +1,6 @@
 import json
 import requests
+import os
 
 with open("./file_paths.json", "r") as f:
     filePaths = json.load(f)
@@ -11,10 +12,14 @@ def traverseNode(node, path=[]):
         if "files" in node and isinstance(node["files"], list):
             for filename in node["files"]:
                 urlPath = '/'.join(path + [filename])
-                print("Downloading: "+BASE_URL + urlPath)
+                print("Downloading: " + BASE_URL + urlPath)
                 response = requests.get(BASE_URL + urlPath)
                 if response.status_code == 200:
-                    with open('./' + urlPath, 'wb') as outFile:
+                    file_path = './' + urlPath
+                    dir_path = os.path.dirname(file_path)
+                    if dir_path and not os.path.exists(dir_path):
+                        os.makedirs(dir_path, exist_ok=True)
+                    with open(file_path, 'wb') as outFile:
                         outFile.write(response.content)
                 else:
                     print(f"Failed to download: {BASE_URL + urlPath} (Status code: {response.status_code})")
