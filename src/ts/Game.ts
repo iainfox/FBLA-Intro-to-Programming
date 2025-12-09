@@ -62,14 +62,26 @@ export default class Game {
      */
     public start_loop() {
         this.broadcast("Green Flag Clicked")
+        const target_fps = 60;
+        const frame_delay = 1000 / target_fps;
+        let last_frame_time: DOMHighResTimeStamp = performance.now();
+
         const loop = () => {
-            for (const sprite of this.sprite_list) {
-                sprite.foreverCallbacks.forEach(callback => {
-                    callback(sprite)
-                });
+            const now = performance.now();
+            const elapsed = now - last_frame_time;
+
+            if (elapsed >= frame_delay) {
+                last_frame_time = now - (elapsed % frame_delay);
+
+                for (const sprite of this.sprite_list) {
+                    sprite.foreverCallbacks.forEach(callback => {
+                        callback(sprite)
+                    });
+                }
+                this.render();
+                this.frame_count++;
             }
-            this.render();
-            this.frame_count++
+
             requestAnimationFrame(loop);
         }
         loop();
