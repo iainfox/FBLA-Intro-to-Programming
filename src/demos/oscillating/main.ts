@@ -18,6 +18,9 @@ const game = new Game("backdrop1", "../../../temp.jpg", document.getElementById(
 
 game.add_sprite(sprite);
 
-sprite.add_forever_callback(() => sprite.set_x_to(Math.sin(game.currentFrameCount/2)*20))
+sprite.add_forever_callback(() => {
+    sprite.set_x_to(Math.sin(game.currentFrameCount/2)*20)
+    sprite.point_in_direction(game.currentFrameCount%360)
+})
 
 game.start_loop(60)
