@@ -1,7 +1,7 @@
 import json
 import requests
 
-with open("./src/scripts/file_paths.json", "r") as f:
+with open("./file_paths.json", "r") as f:
     filePaths = json.load(f)
 
 BASE_URL = "https://cdn.jsdelivr.net/gh/iainfox/FBLA-Intro-To-Programming@latest/"
