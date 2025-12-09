@@ -1,0 +1,25 @@
+{
+    "src": {
+        "demos": {
+            "follow_cursor": {
+                "files": ["index.html", "main.ts", "styles.css"]
+            },
+            "on_mouse_hover": {
+                "files": ["index.html", "main.ts", "styles.css"]
+            },
+            "oscillating": {
+                "files": ["index.html", "main.ts", "styles.css"]
+            }
+        },
+        "scripts": {
+            "files": ["file_paths.json", "main.py"]
+        },
+        "ts": {
+            "files": ["Game.ts", "Sprite.ts"]
+        }
+    },
+    "files": [
+        "README.md",
+        "temp.jpg"
+    ]
+}
