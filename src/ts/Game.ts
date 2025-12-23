@@ -87,6 +87,21 @@ export default class Game {
         loop();
     }
 
+    /**
+     * Loads an image asynchronously and returns a Promise that resolves to the HTMLImageElement.
+     * 
+     * @param img_path - The path or URL to the image.
+     * @returns Promise<HTMLImageElement>
+     */
+    public static load_image(img_path: string): Promise<HTMLImageElement> {
+        return new Promise<HTMLImageElement>((resolve, reject) => {
+            const image = new Image()
+            image.onload = () => resolve(image)
+            image.onerror = reject
+            image.src = img_path
+        });
+    }
+
     public get currentFrameCount() : number {
         return this.frame_count
     }    
